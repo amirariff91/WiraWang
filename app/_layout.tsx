@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack } from 'expo-router';
-import { QuizProvider } from './context/QuizContext';
+import QuizProvider from './context/QuizContext';
 import { StatusBar } from 'expo-status-bar';
 
 export default function RootLayout() {
@@ -16,17 +16,25 @@ export default function RootLayout() {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerBackTitleVisible: false,
           contentStyle: {
             backgroundColor: '#F5F5F5',
           },
+          animation: 'slide_from_right',
+          headerBackTitle: 'Kembali',
         }}
       >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="(tabs)" 
+          options={{ 
+            headerShown: false,
+            headerBackTitle: 'Beranda',
+          }} 
+        />
         <Stack.Screen 
           name="quiz-selection" 
           options={{ 
             title: 'Pilih Kuiz',
+            headerBackTitle: 'Beranda',
           }} 
         />
         <Stack.Screen 

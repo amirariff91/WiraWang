@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { useQuiz } from '@/app/context/QuizContext';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, { FadeInRight, FadeOutLeft } from 'react-native-reanimated';
-import { playCorrectSound, playIncorrectSound } from '@/app/utils/sounds';
+import soundUtils from '@/app/utils/sounds';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
@@ -35,9 +35,9 @@ export default function QuizScreen() {
     setAnswers(newAnswers);
 
     if (selectedIndex === quiz.questions[currentQuestionIndex].correctAnswer) {
-      await playCorrectSound();
+      await soundUtils.playCorrectSound();
     } else {
-      await playIncorrectSound();
+      await soundUtils.playIncorrectSound();
     }
 
     if (currentQuestionIndex < quiz.questions.length - 1) {

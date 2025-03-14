@@ -4,11 +4,11 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import { useQuiz } from '@/app/context/QuizContext';
 import { Ionicons } from '@expo/vector-icons';
-import ConfettiCannon from 'react-native-confetti-cannon';
+import { PIConfetti } from 'react-native-fast-confetti';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import { addLeaderboardEntry } from '@/app/utils/leaderboard';
+import leaderboardUtils from '@/app/utils/leaderboard';
 
 const { width } = Dimensions.get('window');
 
@@ -33,7 +33,7 @@ export default function QuizResultScreen() {
   const { score, total, answers, quizId } = useLocalSearchParams();
   const router = useRouter();
   const { setCurrentScore, quizData } = useQuiz();
-  const confettiRef = useRef<ConfettiCannon>(null);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const quiz = quizData.find((q: Quiz) => q.id === quizId);
@@ -42,10 +42,10 @@ export default function QuizResultScreen() {
 
   useEffect(() => {
     const addScore = async () => {
-      if (scorePercentage >= 80 && confettiRef.current) {
-        confettiRef.current.start();
+      if (scorePercentage >= 80) {
+        setShowConfetti(true);
       }
-      await addLeaderboardEntry('Player', Number(score), quizId as string);
+      await leaderboardUtils.addLeaderboardEntry('Player', Number(score), quizId as string);
       setIsLoading(false);
     };
     addScore();
@@ -90,14 +90,7 @@ export default function QuizResultScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <LinearGradient colors={['#4CAF50', '#2E7D32']} style={styles.gradientContainer}>
-        {scorePercentage >= 80 && (
-          <ConfettiCannon
-            count={200}
-            origin={{x: -10, y: 0}}
-            autoStart={false}
-            ref={confettiRef}
-          />
-        )}
+        {showConfetti && <PIConfetti colors={['#FFD700', '#FFA500', '#FF69B4', '#87CEEB', '#98FB98']} />}
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
             <Pressable onPress={handleReturnHome} style={styles.backButton}>

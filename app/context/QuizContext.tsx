@@ -197,7 +197,15 @@ interface QuizContextType {
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
-export function QuizProvider({ children }: { children: ReactNode }) {
+export function useQuiz() {
+  const context = useContext(QuizContext);
+  if (context === undefined) {
+    throw new Error('useQuiz must be used within a QuizProvider');
+  }
+  return context;
+}
+
+export default function QuizProvider({ children }: { children: ReactNode }) {
   const [currentScore, setCurrentScore] = useState(0);
 
   return (
@@ -205,12 +213,4 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       {children}
     </QuizContext.Provider>
   );
-}
-
-export function useQuiz() {
-  const context = useContext(QuizContext);
-  if (context === undefined) {
-    throw new Error('useQuiz must be used within a QuizProvider');
-  }
-  return context;
 }

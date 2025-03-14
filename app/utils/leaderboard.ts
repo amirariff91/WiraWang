@@ -9,7 +9,7 @@ interface LeaderboardEntry {
 
 const LEADERBOARD_KEY = 'leaderboard';
 
-export async function addLeaderboardEntry(name: string, score: number, quizId: string): Promise<void> {
+async function addLeaderboardEntry(name: string, score: number, quizId: string): Promise<void> {
   try {
     const leaderboard = await getLeaderboard();
     const newEntry: LeaderboardEntry = {
@@ -26,7 +26,7 @@ export async function addLeaderboardEntry(name: string, score: number, quizId: s
   }
 }
 
-export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
+async function getLeaderboard(): Promise<LeaderboardEntry[]> {
   try {
     const leaderboardJson = await AsyncStorage.getItem(LEADERBOARD_KEY);
     return leaderboardJson ? JSON.parse(leaderboardJson) : [];
@@ -36,7 +36,16 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
   }
 }
 
-export async function getLeaderboardByQuiz(quizId: string): Promise<LeaderboardEntry[]> {
+async function getLeaderboardByQuiz(quizId: string): Promise<LeaderboardEntry[]> {
   const leaderboard = await getLeaderboard();
   return leaderboard.filter(entry => entry.quizId === quizId);
 }
+
+const leaderboardUtils = {
+  addLeaderboardEntry,
+  getLeaderboard,
+  getLeaderboardByQuiz,
+};
+
+export type { LeaderboardEntry };
+export default leaderboardUtils;

@@ -11,23 +11,31 @@ const loadSound = async (soundFile: any): Promise<Audio.Sound | undefined> => {
   }
 };
 
-export const playCorrectSound = async () => {
+const playCorrectSound = async () => {
   const sound = await loadSound(require('@/assets/sounds/correct.mp3'));
   if (sound) {
     await sound.playAsync();
   }
 };
 
-export const playIncorrectSound = async () => {
+const playIncorrectSound = async () => {
   const sound = await loadSound(require('@/assets/sounds/incorrect.mp3'));
   if (sound) {
     await sound.playAsync();
   }
 };
 
-export const playCompletionSound = async () => {
+const playCompletionSound = async () => {
   const sound = await loadSound(require('@/assets/sounds/completion.mp3'));
   if (sound) {
     await sound.playAsync();
   }
 };
+
+const soundUtils = {
+  playCorrectSound,
+  playIncorrectSound,
+  playCompletionSound,
+};
+
+export default soundUtils;

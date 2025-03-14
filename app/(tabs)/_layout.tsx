@@ -20,12 +20,23 @@ export default function TabLayout() {
           }
           return null;
         },
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+        },
+        headerStyle: {
+          backgroundColor: '#4CAF50',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
       })}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Utama',
+          title: 'WiraWang',
+          headerTitle: 'WiraWang',
           tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
       />
@@ -33,6 +44,7 @@ export default function TabLayout() {
         name="leaderboard"
         options={{
           title: 'Papan Pendahulu',
+          headerTitle: 'Papan Pendahulu',
           tabBarIcon: ({ color }) => <Ionicons name="trophy" size={24} color={color} />,
         }}
       />
